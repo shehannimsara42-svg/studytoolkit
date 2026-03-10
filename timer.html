@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCSC Toolkit - Study Timer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="fade-in">
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                <img src="https://via.placeholder.com/40/800000/FFD700?text=UCSC" alt="UCSC Logo" class="ucsc-logo">
+                <div class="logo">UCSC Toolkit</div>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="gpa.html">GPA Calculator</a></li>
+            <li><a href="timer.html" class="active">Study Timer</a></li>
+        </ul>
+        <div class="theme-toggle">
+            <button id="dark-mode-btn">🌙 Dark Mode</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Upcoming Events</h3>
+                <div class="event-input-group">
+                    <input type="text" id="event-input" placeholder="Add new event...">
+                    <button id="add-event-btn">Add</button>
+                </div>
+                <ul id="event-list">
+                    <!-- Events populated by script.js -->
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content">
+            <section id="timer-section" class="tool-section slide-up">
+                <h2>Study Timer</h2>
+                <div id="timer-display" class="timer-text">25:00</div>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" class="primary-btn">Start</button>
+                    <button id="timer-reset-btn">Reset</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

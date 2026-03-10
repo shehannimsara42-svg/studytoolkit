@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Toolkit - Nordic Slate</title>
+    <style>
+        /* --- NORDIC SLATE THEME VARIABLES --- */
+        :root {
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-color: #1E293B;
+            --accent: #6366F1;
+            --accent-hover: #4F46E5;
+            --border: #E2E8F0;
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 60px;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode {
+            --bg-color: #0F172A;
+            --card-bg: #1E293B;
+            --text-color: #F1F5F9;
+            --accent: #818CF8;
+            --accent-hover: #6366F1;
+            --border: #334155;
+            --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+        }
+
+        /* --- BASE STYLES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            height: 70px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo { font-weight: 800; font-size: 1.1rem; color: var(--accent); letter-spacing: 1px; }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            padding: 10px 15px;
+            border-radius: var(--radius);
+        }
+
+        .nav-menu li a:hover, .nav-menu li a.active {
+            color: var(--accent);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .theme-switch {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--text-color);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        /* --- LAYOUT --- */
+        .app-container { display: flex; margin-top: 70px; flex: 1; }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-collapsed);
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border);
+            padding: 2rem 0;
+            position: fixed;
+            height: calc(100vh - 70px);
+            overflow: hidden;
+            z-index: 900;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .sidebar:hover {
+            width: var(--sidebar-width);
+            padding: 2rem;
+            box-shadow: 10px 0 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .sidebar::before {
+            content: "📅";
+            display: block;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            transition: opacity 0.3s;
+        }
+        .sidebar:hover::before { opacity: 0; height: 0; margin: 0; }
+
+        .sidebar h3, .sidebar .event-input-group, .sidebar .event-list {
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .sidebar:hover h3, .sidebar:hover .event-input-group, .sidebar:hover .event-list {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sidebar h3 { margin-bottom: 1.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
+
+        .event-input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+        input, select {
+            padding: 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--bg-color);
+            color: var(--text-color);
+            outline: none;
+            font-size: 14px;
+        }
+
+        .btn-add {
+            padding: 12px;
+            border-radius: var(--radius);
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .event-item {
+            padding: 12px;
+            background: var(--bg-color);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            margin-left: var(--sidebar-collapsed);
+            padding: 3rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 3rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 700px;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .card.active { display: block; }
+
+        .card h2 { margin-bottom: 2rem; font-size: 1.5rem; color: var(--accent); font-weight: 800; }
+
+        /* --- GPA CALCULATOR --- */
+        .gpa-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 12px; }
+        .gpa-controls { display: flex; gap: 10px; margin-top: 1.5rem; }
+        .gpa-result { margin-top: 2rem; text-align: center; font-size: 3.5rem; font-weight: 900; color: var(--accent); }
+
+        /* --- POMODORO TIMER --- */
+        .timer-display { font-size: 6rem; font-weight: 900; text-align: center; margin: 2rem 0; font-family: monospace; color: var(--accent); }
+        .timer-controls { display: flex; justify-content: center; gap: 1rem; }
+        .btn-reset { background: var(--border); color: var(--text-color); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 1rem; }
+            .nav-menu { gap: 0.5rem; }
+            .nav-menu li a { font-size: 0.8rem; padding: 8px; }
+            .sidebar { width: 100%; position: static; height: auto; border-right: none; padding: 1.5rem; }
+            .sidebar::before { display: none; }
+            .sidebar h3, .sidebar .event-input-group, .sidebar .event-list { opacity: 1; pointer-events: auto; }
+            .main-content { margin-left: 0; padding: 1.5rem; }
+            .app-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">TOOLKIT // NORDIC</div>
+        <ul class="nav-menu">
+            <li><a href="#" class="active" data-target="gpa-card">GPA Calculator</a></li>
+            <li><a href="#" data-target="timer-card">Study Timer</a></li>
+        </ul>
+        <button class="theme-switch" id="theme-toggle">🌙 Dark Mode</button>
+    </nav>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <h3>Upcoming Events</h3>
+            <div class="event-input-group">
+                <input type="text" id="event-input" placeholder="Event name...">
+                <button id="add-event-btn" class="btn-add">Add Event</button>
+            </div>
+            <ul class="event-list" id="event-list">
+                <li class="event-item">Final Exam - March 20</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <!-- GPA Calculator Card -->
+            <section id="gpa-card" class="card active">
+                <h2>GPA Calculator</h2>
+                <div id="gpa-container">
+                    <div class="gpa-row">
+                        <input type="number" class="credits" placeholder="Credits" min="1">
+                        <select class="grade">
+                            <option value="4">Grade A (4.0)</option>
+                            <option value="3">Grade B (3.0)</option>
+                            <option value="2">Grade C (2.0)</option>
+                            <option value="1">Grade D (1.0)</option>
+                            <option value="0">Grade F (0.0)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="gpa-controls">
+                    <button id="add-row-btn" style="background: var(--border); color: var(--text-color);">+ Add Row</button>
+                    <button id="calc-gpa-btn" style="flex: 1;">Calculate GPA</button>
+                </div>
+                <div class="gpa-result" id="gpa-display">0.00</div>
+            </section>
+
+            <!-- Study Timer Card -->
+            <section id="timer-card" class="card">
+                <h2>Study Timer</h2>
+                <div class="timer-display" id="timer-display">25:00</div>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" style="flex: 1;">Start</button>
+                    <button id="timer-reset-btn" class="btn-reset">Reset</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // 1. Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const updateThemeUI = (isDark) => {
+            document.body.classList.toggle('dark-mode', isDark);
+            themeToggle.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+        };
+        themeToggle.addEventListener('click', () => {
+            const isDark = !document.body.classList.contains('dark-mode');
+            updateThemeUI(isDark);
+            localStorage.setItem('nordic-theme', isDark ? 'dark' : 'light');
+        });
+        if (localStorage.getItem('nordic-theme') === 'dark') updateThemeUI(true);
+
+        // 2. View Switching
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        const cards = document.querySelectorAll('.card');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('data-target');
+                
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                cards.forEach(card => {
+                    card.classList.toggle('active', card.id === targetId);
+                });
+            });
+        });
+
+        // 3. Sidebar Events
+        const addEventBtn = document.getElementById('add-event-btn');
+        const eventInput = document.getElementById('event-input');
+        const eventList = document.getElementById('event-list');
+        addEventBtn.addEventListener('click', () => {
+            const val = eventInput.value.trim();
+            if (val) {
+                const li = document.createElement('li');
+                li.className = 'event-item';
+                li.innerText = val;
+                eventList.prepend(li);
+                eventInput.value = '';
+            }
+        });
+
+        // 4. GPA Calculator
+        const gpaContainer = document.getElementById('gpa-container');
+        document.getElementById('add-row-btn').addEventListener('click', () => {
+            const div = document.createElement('div');
+            div.className = 'gpa-row';
+            div.innerHTML = `<input type="number" class="credits" placeholder="Credits" min="1">
+                             <select class="grade"><option value="4">Grade A (4.0)</option><option value="3">Grade B (3.0)</option>
+                             <option value="2">Grade C (2.0)</option><option value="1">Grade D (1.0)</option><option value="0">Grade F (0.0)</option></select>`;
+            gpaContainer.appendChild(div);
+        });
+        document.getElementById('calc-gpa-btn').addEventListener('click', () => {
+            const rows = document.querySelectorAll('.gpa-row');
+            let pts = 0, crd = 0;
+            rows.forEach(row => {
+                const c = parseFloat(row.querySelector('.credits').value);
+                const g = parseFloat(row.querySelector('.grade').value);
+                if (c > 0) { pts += (g * c); crd += c; }
+            });
+            document.getElementById('gpa-display').innerText = crd > 0 ? (pts / crd).toFixed(2) : "0.00";
+        });
+
+        // 5. Timer
+        let timeLeft = 1500, timerId = null;
+        const display = document.getElementById('timer-display');
+        const toggleBtn = document.getElementById('timer-toggle-btn');
+        const format = () => {
+            display.innerText = `${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+        };
+        toggleBtn.addEventListener('click', () => {
+            if (timerId) { clearInterval(timerId); timerId = null; toggleBtn.innerText = 'Start'; }
+            else {
+                toggleBtn.innerText = 'Pause';
+                timerId = setInterval(() => {
+                    if (timeLeft > 0) { timeLeft--; format(); }
+                    else { clearInterval(timerId); timerId = null; toggleBtn.innerText = 'Start'; alert("Time's up!"); }
+                }, 1000);
+            }
+        });
+        document.getElementById('timer-reset-btn').addEventListener('click', () => {
+            clearInterval(timerId); timerId = null; timeLeft = 1500; format(); toggleBtn.innerText = 'Start';
+        });
+    </script>
+</body>
+</html>

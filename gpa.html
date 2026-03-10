@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCSC Toolkit - GPA Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="fade-in">
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                <img src="https://via.placeholder.com/40/800000/FFD700?text=UCSC" alt="UCSC Logo" class="ucsc-logo">
+                <div class="logo">UCSC Toolkit</div>
+            </a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="gpa.html" class="active">GPA Calculator</a></li>
+            <li><a href="timer.html">Study Timer</a></li>
+        </ul>
+        <div class="theme-toggle">
+            <button id="dark-mode-btn">🌙 Dark Mode</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Upcoming Events</h3>
+                <div class="event-input-group">
+                    <input type="text" id="event-input" placeholder="Add new event...">
+                    <button id="add-event-btn">Add</button>
+                </div>
+                <ul id="event-list">
+                    <!-- Events populated by script.js -->
+                </ul>
+            </div>
+        </aside>
+
+        <main class="content">
+            <section id="gpa-section" class="tool-section slide-up">
+                <h2>GPA Calculator</h2>
+                <div id="gpa-rows-container">
+                    <div class="gpa-row">
+                        <input type="text" placeholder="Course Name">
+                        <input type="number" class="course-credits" placeholder="Credits" min="1">
+                        <select class="course-grade">
+                            <option value="4">A</option>
+                            <option value="3">B</option>
+                            <option value="2">C</option>
+                            <option value="1">D</option>
+                            <option value="0">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="add-row-btn">Add Course</button>
+                    <button id="calc-gpa-btn" class="primary-btn">Calculate GPA</button>
+                </div>
+                <div id="gpa-display" class="result-box">Result: 0.00</div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
