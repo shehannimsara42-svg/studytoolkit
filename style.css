@@ -11,6 +11,9 @@
     --tool-bg: #ffffff;
     --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
+    /* Gradient Animation Colors - Light Mode */
+    --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #667eea 100%);
+    --gradient-bg-size: 400% 400%;
 }
 
 body.dark-theme {
@@ -20,13 +23,18 @@ body.dark-theme {
     --navbar-bg: #1a1a1a;
     --tool-bg: #1e1e1e;
     --shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    /* Gradient Animation Colors - Dark Mode */
+    --gradient-1: linear-gradient(135deg, #1a237e 0%, #283593 25%, #512da8 50%, #1565c0 75%, #1a237e 100%);
 }
 
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-color);
+    background: var(--gradient-1);
+    background-size: var(--gradient-bg-size);
+    background-attachment: fixed;
+    animation: gradientShift 15s ease infinite;
     color: var(--text-color);
     transition: var(--transition);
     padding-top: 60px;
@@ -50,6 +58,12 @@ body {
 @keyframes slideUp {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* Navbar */
